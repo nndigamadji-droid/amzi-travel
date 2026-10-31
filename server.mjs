@@ -102,7 +102,7 @@ export async function createApp(options={}){
   }catch(e){if(res.headersSent){res.end();return}json(res,e.status||(e.code==='ENOENT'?404:500),{message:e.status?e.message:e.code==='ENOENT'?'Fichier introuvable.':'Le service est temporairement indisponible. Votre demande ne peut pas être confirmée. Réessayez.'})}
  });
  server.requestTimeout=15000;server.headersTimeout=10000;
- const app={get origin(){return origin},dataDir,backup:store.backup,
+ const app={get origin(){return origin},get listenOrigin(){return `http://${host}:${server.address().port}`},dataDir,backup:store.backup,
   async start(){await new Promise((ok,fail)=>{server.once('error',fail);server.listen(port,host,ok)});origin=configuredOrigin||`http://${host}:${server.address().port}`;if(options.backups!==false){await dailyBackup();backupTimer=setInterval(()=>dailyBackup().catch(()=>console.error('Sauvegarde automatique non disponible.')),3600_000);backupTimer.unref()}notifyTimer=setInterval(()=>{if(mailReady)for(const q of db.prepare("SELECT reference FROM quotes WHERE notification IN ('pending','failed','unconfigured') AND attempts<5 AND (last_attempt IS NULL OR last_attempt<?) LIMIT 10").all(new Date(Date.now()-60_000).toISOString()))void notify(q.reference)},60_000);notifyTimer.unref();return app},
   async close(){clearInterval(backupTimer);clearInterval(notifyTimer);if(server.listening){server.closeAllConnections();await new Promise(ok=>server.close(ok))}try{store.close()}catch{}}
  };return app;

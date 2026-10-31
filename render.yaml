@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: amzi-travel-api
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm ci && npm test
+    startCommand: node scripts/start-render-free.mjs
+    healthCheckPath: /health
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_VERSION
+        value: '24'
+      - key: NODE_ENV
+        value: production
+      - key: PUBLIC_ORIGIN
+        value: https://amzi-travel.netlify.app
+      - key: AMZI_STATE_URL
+        value: https://amzi-travel.netlify.app/.netlify/functions/amzi-state
+      - key: AMZI_STATE_TOKEN
+        sync: false
+      - key: AMZI_STATE_KEY
+        sync: false

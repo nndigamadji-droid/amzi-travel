@@ -15,4 +15,4 @@ jobs:
         with:
           node-version: '24'
       - name: Tester le catalogue, les devis et les accès
-        run: npm test
+        run: npm ci && npm test

@@ -78,3 +78,8 @@ Une vérification automatique lance la suite de tests sous Node.js 24 à chaque 
 ## Préparation Netlify + Hostinger
 
 La configuration conserve le site complet : Netlify sert les pages, Hostinger exécute le serveur Node.js 24 et conserve SQLite. La commande `npm run build:netlify` nécessite `AMZI_BACKEND_ORIGIN` et prépare uniquement les fichiers publics. Voir [le guide de déploiement](docs/deploiement-netlify-hostinger.md). La configuration est prête ; les accès aux comptes et la validation de l’offre Hostinger restent nécessaires avant publication.
+
+
+## Variante gratuite Render + Netlify
+
+Le serveur peut fonctionner avec `scripts/start-render-free.mjs` et un état distant chiffré conservé dans Netlify Blobs. La base cloud est séparée des données locales. Le déploiement utilise le plan Render `free`, sans disque payant. Voir [la configuration, les contrôles et les limites](docs/deploiement-render-gratuit.md).
