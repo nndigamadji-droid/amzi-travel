@@ -1,0 +1,19 @@
+body[data-page="destinations"] main>*:not(.page-intro):not(#destinations):not(#tarifs):not(.horizons){display:none!important}
+body[data-page="agence"] main>*:not(.page-intro):not(.agency-complete){display:none!important}
+body[data-page="services"] main>*:not(.page-intro):not(#services):not(.tailor-strip):not(.journey-board):not(.route-section){display:none!important}
+body[data-page="devis"] main>*:not(.page-intro):not(#devis):not(#conseils){display:none!important}
+
+/* Bandeaux d’entrée des pages : même identité, photographie propre au sujet. */
+body[data-page] .page-banner{position:relative;isolation:isolate;overflow:hidden;min-height:300px;margin:0 0 32px;padding:44px clamp(28px,5vw,72px);display:flex;align-items:center;border-radius:24px;background:#082e50;color:#fff;border-bottom:3px solid #d4a538}
+.page-banner-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:75% 45%;z-index:-2}
+.page-banner:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#082e50 0%,#082e50ed 32%,#082e5080 65%,#082e5020 100%);z-index:-1}
+.page-banner-copy{width:min(650px,65%)}
+.page-breadcrumb{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px;line-height:1.5;margin-bottom:24px;color:#e2edf5}
+.page-breadcrumb a{min-height:32px;display:inline-flex;align-items:center;text-decoration:underline;text-underline-offset:4px}
+body[data-page] .page-banner h1{color:#fff;font-size:clamp(36px,4.2vw,56px);line-height:1.1;margin:0 0 18px;letter-spacing:-.035em}
+body[data-page] .page-banner p{font-size:18px;line-height:1.65;margin:0;max-width:43ch;color:#f1f6fa}
+body[data-page="agence"] .page-banner-image{object-position:center 40%}
+body[data-page="devis"] .page-banner{min-height:250px}
+@media(max-width:900px){body[data-page] .page-banner{padding:32px;min-height:280px}.page-banner-copy{width:75%}}
+@media(max-width:700px){body[data-page] .page-banner{margin:0 0 22px;padding:26px 24px;min-height:265px;border-radius:18px}.page-banner-copy{width:100%}.page-banner:after{background:linear-gradient(90deg,#082e50f5,#082e50bd)}.page-breadcrumb{font-size:13px;margin-bottom:22px}body[data-page] .page-banner h1{font-size:clamp(32px,8.3vw,40px);margin-bottom:16px}body[data-page] .page-banner p{font-size:16px;max-width:34ch}body[data-page="devis"] .page-banner{min-height:240px}}
+body[data-page] .page-banner{width:100%;max-width:none}

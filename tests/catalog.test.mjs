@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {trips,filterTrips, validateDates,quoteDestination} from '../catalog.mjs';
+const items=[{country:'Maroc',theme:'Culture',days:7,price:null},{country:'Tchad',theme:'Aventure',days:4,price:100},{country:'Maroc',theme:'Détente',days:10,price:300}];
+test('combine les critères de catalogue',()=>assert.deepEqual(filterTrips(items,{country:'Maroc',theme:'Culture',duration:'short'}),[items[0]]));
+test('une offre sans tarif ne vaut pas zéro',()=>assert.deepEqual(filterTrips(items,{budget:'200'}),[items[1]]));
+test('réinitialiser retrouve toutes les offres',()=>assert.equal(filterTrips(items,{}).length,3));
+test('dates flexibles autorisées et retour antérieur refusé',()=>{assert.equal(validateDates('',''),true);assert.equal(validateDates('2027-03-10','2027-03-09'),false);assert.equal(validateDates('2027-03-10','2027-03-10'),true)});
+test('le catalogue reflète les destinations prioritaires de l’agence au Tchad',()=>assert.deepEqual(trips.map(t=>t.country),['Égypte','Arabie saoudite','Turquie','Maroc','France','Canada','États-Unis','Autres pays']));
+test('le pèlerinage est identifié et aucun forfait ni durée ne sont inventés',()=>{const saudi=trips.find(t=>t.country==='Arabie saoudite');assert.equal(saudi.theme,'Pèlerinage');assert.ok(saudi.title.includes('Pèlerinage'));assert.ok(trips.every(t=>t.origin==='Tchad'&&t.price===null&&t.days===undefined));});
+test('le titre repris dans le devis garde ses caractères sans encodage HTML',()=>assert.equal(quoteDestination({title:'Égypte & découverte',country:'Égypte'}),'Égypte & découverte — Égypte'));

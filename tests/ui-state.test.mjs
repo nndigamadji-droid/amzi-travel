@@ -1,0 +1,8 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFilters,filterUrl,quoteErrors,formSnapshot} from '../ui-state.mjs';
+test('restaure uniquement les filtres valides depuis une URL partagée',()=>{assert.deepEqual(readFilters('https://amzi.example/?country=Arabie+saoudite&theme=P%C3%A8lerinage',['Arabie saoudite']),{country:'Arabie saoudite',theme:'Pèlerinage'});assert.deepEqual(readFilters('https://amzi.example/?country=inconnu&theme=inconnu',[]),{country:'',theme:''})});
+test('la remise à zéro supprime les filtres sans supprimer ancre et autres paramètres',()=>assert.equal(filterUrl('https://amzi.example/?source=contact&country=France&theme=International#destinations',{country:'',theme:''}),'/?source=contact#destinations'));
+test('une erreur de téléphone et un nom composé d’espaces désignent leurs champs',()=>{const errors=quoteErrors({name:'   ',destination:'Égypte',departure:'N’Djamena',contactMethod:'phone',phone:'abc',travelers:'2',service:'Billet d’avion'});assert.ok(errors.name);assert.ok(errors.phone);assert.equal(errors.departure,undefined)});
+test('les dates inversées désignent le retour et les champs optionnels sont admis',()=>{const errors=quoteErrors({name:'Alex',destination:'France',departure:'N’Djamena',contactMethod:'email',email:'alex@example.com',travelers:'1',service:'Billet d’avion',start:'2027-01-10',end:'2027-01-09'});assert.ok(errors.end);assert.equal(errors.phone,undefined)});
+test('un instantané de formulaire détecte les changements sans dépendre de l’ordre des champs',()=>{assert.equal(formSnapshot({notes:'A',status:'reçue'}),formSnapshot({status:'reçue',notes:'A'}));assert.notEqual(formSnapshot({notes:'A'}),formSnapshot({notes:'B'}))});
