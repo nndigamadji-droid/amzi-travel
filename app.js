@@ -116,4 +116,4 @@ document.addEventListener('click',e=>{
  for(const [key,selector] of [['destination','#quote-destination'],['service','#quote-service'],['theme','#quote-theme'],['message','#quote-message']]){const value=$(selector).value;if(value)url.searchParams.set(key,value)}
  location.assign(url.pathname+url.search);
 });
-for(const a of document.querySelectorAll('#navigation a'))if(a.getAttribute('href')===location.pathname)a.setAttribute('aria-current','page');
+for(const a of document.querySelectorAll('#navigation a'))if(new URL(a.href).pathname.replace(/\/+$/,'')===location.pathname.replace(/\/+$/,''))a.setAttribute('aria-current','page');

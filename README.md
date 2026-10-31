@@ -1,5 +1,7 @@
 # AMZI TRAVEL
 
+Site publié : https://amzi-travel.netlify.app/ — pages sur Netlify, serveur Render Free, stockage distant chiffré.
+
 Site d’agence au départ du Tchad, catalogue administrable, devis persistants et espace de gestion protégé. Le bleu, l’or, le logo et les destinations prioritaires sont conservés.
 
 ## Démarrage
@@ -42,7 +44,7 @@ Les essais visuels et fonctionnels du navigateur sont distincts des essais sur t
 
 ## Limites avant publication
 
-La livraison est locale. Aucun paiement, billet émis, réservation fournisseur, compte voyageur, blog ou traduction n’est intégré. Le CMS couvre les destinations ; les autres textes restent dans les fichiers. La création des comptes est fournie ; désactivation, modification des rôles, récupération du mot de passe et authentification multifacteur restent à ajouter avant exploitation élargie. Le tableau charge les 2 000 dernières demandes ; l’export porte sur l’ensemble.
+Le mode local conserve ses données dans SQLite sur disque. Aucun paiement, billet émis, réservation fournisseur, compte voyageur, blog ou traduction n’est intégré. Le CMS couvre les destinations ; les autres textes restent dans les fichiers. La création des comptes est fournie ; désactivation, modification des rôles, récupération du mot de passe et authentification multifacteur restent à ajouter avant exploitation élargie. Le tableau charge les 2 000 dernières demandes ; l’export porte sur l’ensemble.
 
 La mise en ligne nécessite le domaine, l’hébergement et un reverse proxy HTTPS, l’identité juridique et l’adresse postale du siège, les conditions commerciales, les durées de conservation, la protection des sauvegardes et les droits des visuels. Le mode NODE_ENV=production refuse un démarrage sans compte initial et sans PUBLIC_ORIGIN en HTTPS. Le proxy local doit transmettre ce nom d’hôte ; les en-têtes d’adresse cliente ne sont pas approuvés automatiquement. Le programme ne configure ni le proxy, ni le certificat, ni l’hébergement. Le site reste non indexable.
 
