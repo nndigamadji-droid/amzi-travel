@@ -15,10 +15,11 @@ const TYPES={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8'
 export async function createApp(options={}){
  const dataDir=resolve(options.dataDir||process.env.AMZI_DATA_DIR||join(ROOT,'data'));
  const store=openStore(dataDir,options.dbPath);const db=store.db;
- const port=options.port??Number(process.env.PORT||4180),host=options.host||'127.0.0.1';
+ const port=options.port??Number(process.env.PORT||4180),host=options.host||process.env.AMZI_HOST||'127.0.0.1';
  const production=process.env.NODE_ENV==='production';const configuredOrigin=options.origin||process.env.PUBLIC_ORIGIN;
  if(production&&(!configuredOrigin?.startsWith('https://')||!db.prepare('SELECT 1 FROM users LIMIT 1').get())){store.close();throw new Error('Initialisez le compte en local et configurez PUBLIC_ORIGIN en HTTPS avant le mode production.')}
  const secureCookies=options.secureCookies??production;
+ const backendHost=process.env.AMZI_BACKEND_HOST||'';
  const publicConfig={email:'Sounarow@gmail.com',phones:['+23566570579','+23569560256'],address:process.env.AMZI_ADDRESS||'',country:'Tchad',local:!production};
  const mail=options.mail??{key:process.env.RESEND_API_KEY,from:process.env.NOTIFY_FROM,to:process.env.NOTIFY_TO||publicConfig.email};
  const sendRequest=options.sendRequest??fetch;
@@ -43,7 +44,7 @@ export async function createApp(options={}){
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','same-origin');res.setHeader('X-Frame-Options','DENY');res.setHeader('Permissions-Policy','camera=(), microphone=(), geolocation=()');res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'");
   if(production)res.setHeader('Strict-Transport-Security','max-age=31536000');
   try{
-   if(req.headers.host!==new URL(origin).host)throw new HttpError(403,'Hôte non autorisé.');
+   if(req.headers.host!==new URL(origin).host&&(!production||!backendHost||req.headers.host!==backendHost))throw new HttpError(403,'Hôte non autorisé.');
    const url=new URL(req.url,origin),path=url.pathname,method=req.method,ip=req.socket.remoteAddress;
    if(['POST','PATCH','PUT','DELETE'].includes(method)&&req.headers.origin!==origin)throw new HttpError(403,'Origine non autorisée.');
    if(path.startsWith('/api/')){

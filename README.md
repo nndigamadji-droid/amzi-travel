@@ -73,3 +73,8 @@ Les sources sont versionnées sur la branche `main`. Les dossiers `data/`, `back
 La publication des sources sur GitHub ne déploie pas le serveur. GitHub Pages seul ne peut pas exécuter les fonctions Node.js et SQLite nécessaires au catalogue et aux devis.
 
 Une vérification automatique lance la suite de tests sous Node.js 24 à chaque publication de code et chaque demande de fusion.
+
+
+## Préparation Netlify + Hostinger
+
+La configuration conserve le site complet : Netlify sert les pages, Hostinger exécute le serveur Node.js 24 et conserve SQLite. La commande `npm run build:netlify` nécessite `AMZI_BACKEND_ORIGIN` et prépare uniquement les fichiers publics. Voir [le guide de déploiement](docs/deploiement-netlify-hostinger.md). La configuration est prête ; les accès aux comptes et la validation de l’offre Hostinger restent nécessaires avant publication.
